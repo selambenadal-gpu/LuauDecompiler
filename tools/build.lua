@@ -18,7 +18,7 @@ output[#output+1] = "  return result\n"
 output[#output+1] = "end\n\n"
 
 for _, name in ipairs(modules) do
-    local filepath = "src/" .. name .. ".lua"
+   local filepath = name .. ".lua"
     local f = assert(io.open(filepath, "r"), "Cannot open: " .. filepath)
     local content = f:read("*a")
     f:close()
@@ -34,7 +34,7 @@ for _, name in ipairs(modules) do
 end
 
 -- init.lua'yı son olarak ekle ve çalıştır
-local initFile = assert(io.open("src/init.lua", "r"))
+local initFile = assert(io.open("init.lua", "r"))
 local initContent = initFile:read("*a")
 initFile:close()
 initContent = initContent:gsub('require%(script%.([%w_]+)%)', 'require("%1")')
