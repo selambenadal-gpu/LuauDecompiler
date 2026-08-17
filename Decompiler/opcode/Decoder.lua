@@ -64,7 +64,26 @@ function Decoder.decode(words, Definitions)
 
 	for pc, word in ipairs(words) do
 		local instruction = Decoder.decodeWord(word, Definitions)
+		instruction.pc = pc
 
+		instructions[pc] = instruction
+	end
+
+
+	return instructions
+end
+
+function Decoder.decodeReader(reader, Definitions, count)
+	assert(reader, "reader is required")
+	assert(Definitions, "Definitions is required")
+	assert(type(count) == "number", "count must be a number")
+
+	local instructions = {}
+
+	for pc = 1, count do
+		local word = reader:u32()
+
+		local instruction = Decoder.decodeWord(word, Definitions)
 		instruction.pc = pc
 
 		instructions[pc] = instruction
