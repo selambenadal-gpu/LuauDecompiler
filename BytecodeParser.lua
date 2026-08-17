@@ -350,9 +350,10 @@ function BytecodeParser.protoToIR(chunk, proto)
 	local index = 1
 	while index <= #proto.code do
 		local word = proto.code[index]
-		local rawOp = word & 0xff
-		local op, a, b, c, d, e = Opcode.decodeWord(word)
-		local opname = Versions.opcodeName(chunk.version, op) or Opcode.name(op)
+local rawOp = word & 0xff
+local decodedOp = Encodings.decodeRawOp(rawOp, chunk.encoding)
+local op, a, b, c, d, e = Opcode.decodeWord(word, decodedOp)
+local opname = Versions.opcodeName(chunk.version, decodedOp) or Opcode.name(decodedOp)
 		local length = Opcode.lengthByName(opname)
 		local aux = length == 2 and proto.code[index + 1] or nil
 
