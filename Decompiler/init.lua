@@ -1,0 +1,3 @@
+local Decompiler = {}
+
+return Decompiler
