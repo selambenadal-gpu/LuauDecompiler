@@ -1,19 +1,19 @@
-local Definitions = require(script.Parent.Parent.Parent.Decompiler.opcode.Definitions)
-local Decoder = require(script.Parent.Parent.Parent.Decompiler.opcode.Decoder)
+local Reader = require(script.Parent.Parent.Parent.Decompiler.parser.Reader)
 
--- opcode 5 = LOADK
--- A = 3
--- D = 42
-local word =
-	5
-	+ 3 * 2 ^ 8
-	+ 42 * 2 ^ 16
+local data = string.char(
+	5, 0, 0, 0
+)
 
-local instruction = Decoder.decodeWord(word, Definitions)
+local reader = Reader.new(data)
 
-assert(instruction.opcode == 5, "Opcode should be 5")
-assert(instruction.name == "LOADK", "Opcode name should be LOADK")
-assert(instruction.A == 3, "A should be 3")
-assert(instruction.D == 42, "D should be 42")
+local instructions = Decoder.decodeReader(
+	reader,
+	Definitions,
+	1
+)
 
-print("TestDecoder: PASS")
+assert(#instructions == 1, "Should decode one instruction")
+assert(instructions[1].opcode == 5, "Reader opcode should be 5")
+assert(instructions[1].name == "LOADK", "Reader opcode should be LOADK")
+
+print("TestDecoder Reader: PASS")
