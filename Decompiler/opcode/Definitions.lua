@@ -15,16 +15,28 @@ Definitions.FORMAT = {
 }
 
 Definitions.OPCODES = {}
-
-
+Definitions.byName = {}
 
 function Definitions.register(id, name, format, info)
-	Definitions.OPCODES[id] = {
+	local definition = {
 		id = id,
 		name = name,
 		format = format,
 		info = info,
 	}
+
+	Definitions.OPCODES[id] = definition
+	Definitions.byName[name] = definition
+
+	return definition
+end
+
+function Definitions.get(id)
+	return Definitions.OPCODES[id]
+end
+
+function Definitions.getByName(name)
+	return Definitions.byName[name]
 end
 
 Definitions.register(0, "NOP", "ABC")
